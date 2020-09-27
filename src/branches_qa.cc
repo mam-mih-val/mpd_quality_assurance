@@ -6,7 +6,7 @@
 
 namespace AnalysisTree{
 void AddEventHeaderQA(QA::Task* qa_manager) {
-  qa_manager->AddH1({"VTX_{z}, mm", {"RecoEvent.", "vtx_z"}, {500, -0.1, 0.1}});
+  qa_manager->AddH1({"VTX_{z}, mm", {"RecoEvent.", "vtx_z"}, {500, -100.00, 100.00}});
   qa_manager->AddH1({"VTX_{x}, mm", {"RecoEvent.", "vtx_x"}, {500, -0.1, 0.1}});
   qa_manager->AddH1({"VTX_{y}, mm", {"RecoEvent.", "vtx_y"}, {500, -0.1, 0.1}});
 
@@ -50,6 +50,25 @@ void AddTpcTracksQA(QA::Task* qa_manager) {
 
   qa_manager->AddH2({"#phi, [rad]", {"TpcTracks.", "phi"}, {315, -3.15, 3.15}},
                     {"#theta [rad]", theta, {315, 0.0, 3.15}});
+
+  std::vector<Cuts*> particles {
+      nullptr,
+      new Cuts("protons", {{{"McTracks.", "pid"}, 2212}, {{"McTracks.", "mother_id"}, -1}}),
+      new Cuts("pi_plus", {{{"McTracks.", "pid"}, 211}, {{"McTracks.", "mother_id"}, -1}}),
+      new Cuts("pi_minus", {{{"McTracks.", "pid"}, -211}, {{"McTracks.", "mother_id"}, -1}}),
+      new Cuts("k_plus", {{{"McTracks.", "pid"}, 321}, {{"McTracks.", "mother_id"}, -1}}),
+      new Cuts("k_minus", {{{"McTracks.", "pid"}, -321}, {{"McTracks.", "mother_id"}, -1}}),
+  };
+  for( auto particle : particles ) {
+    qa_manager->AddH2({"N hits TPC", {"TpcTracks.", "nhits"}, {60, 0.0, 60.0}},
+                      {"RECO p [GeV/c]", {"TpcTracks.", "p"}, {300, 0.0, 3.0}},
+                      particle);
+
+    qa_manager->AddH2(
+        {"N hits TPC", {"TpcTracks.", "nhits"}, {60, 0.0, 60.0}},
+        {"RECO p_{T} [GeV/c]", {"TpcTracks.", "pT"}, {250, 0.0, 2.5}},
+        particle);
+  }
 }
 
 void AddFhCalQA(QA::Task* qa_manager) {
@@ -62,6 +81,21 @@ void AddFhCalQA(QA::Task* qa_manager) {
 void AddSimDataQA(QA::Task* qa_manager) {
   qa_manager->AddH1({"b, fm", {"McEvent.", "B"}, {200, 0.0, 20.0}});
   qa_manager->AddH1({"#Psi_{RP}, rad", {"McEvent.", "PhiRp"}, {315, 0.0, 6.30}});
+  qa_manager->AddH2(
+      {"GEN VTX_{x}", {"McEvent.", "vtx_x"}, {250, -0.1, 0.1}},
+      {"RECO VTX_{x}", {"RecoEvent.", "vtx_x"}, {250, -0.1, 0.1}});
+  qa_manager->AddH2(
+      {"GEN VTX_{y}", {"McEvent.", "vtx_y"}, {250, -0.1, 0.1}},
+      {"RECO VTX_{y}", {"RecoEvent.", "vtx_y"}, {250, -0.1, 0.1}});
+  qa_manager->AddH2(
+      {"GEN VTX_{z}", {"McEvent.", "vtx_z"}, {250, -100.0, 100.0}},
+      {"RECO VTX_{z}", {"RecoEvent.", "vtx_z"}, {250, -100.0, 100.0}});
+  qa_manager->AddH2(
+      {"GEN VTX_{x}", {"McEvent.", "vtx_x"}, {250, -0.1, 0.1}},
+      {"RECO VTX_{y}", {"RecoEvent.", "vtx_y"}, {250, -0.1, 0.1}});
+  qa_manager->AddH2(
+      {"GEN VTX_{y}", {"McEvent.", "vtx_y"}, {250, -0.1, 0.1}},
+      {"RECO VTX_xy}", {"RecoEvent.", "vtx_x"}, {250, -0.1, 0.1}});
 
   qa_manager->AddH1({"mass, [#frac{GeV}{c}", {"McTracks.", "mass"}, {500, 0.0, 2.0}});
 
