@@ -28,7 +28,7 @@ Export AnalysisTree library (see https://github.com/HeavyIonAnalysis/AnalysisTre
 ```
   export AnalysisTree_DIR=/path/to/AnalysisTree/install/lib/cmake/AnalysisTree/
 ```
-Export AnalysisTreeQA library (see https://github.com/HeavyIonAnalysis/AnalysisTreeQA)
+Export AnalysisTreeQA library built with tag 1.0.1 (see https://github.com/HeavyIonAnalysis/AnalysisTreeQA)
 ```
   export AnalysisTreeQA_DIR=/path/to/AnalysisTreeQA/install/lib/cmake/AnalysisTreeQA/
 ```
