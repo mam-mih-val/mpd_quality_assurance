@@ -5,8 +5,8 @@
 #ifndef QUALITY_ASSURANCE_SRC_BRANCHES_QA_H_
 #define QUALITY_ASSURANCE_SRC_BRANCHES_QA_H_
 
-#include <Manager.hpp>
-#include <Task.hpp>
+#include <AnalysisTreeQA/Manager.hpp>
+#include <AnalysisTreeQA/Task.hpp>
 #include "AnalysisTree/Variable.hpp"
 #include <AnalysisTree/Cuts.hpp>
 
